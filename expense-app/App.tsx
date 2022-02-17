@@ -1,10 +1,19 @@
-import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
-import { LayoutAnimation, StyleSheet, Text, View } from "react-native";
-import Loading from "./components/Animations/Loading";
+import React, { useEffect, useState } from "react";
+import { LayoutAnimation } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+import { AppRoutes } from "./constants/AppRoutes";
+import {
+  AuthenticationNavigator,
+  HomeNavigator,
+} from "./components/Navigation";
 import axiosInstance from "./services/axiosInstance";
 
-export default function App() {
+const AppStack = createStackNavigator<AppRoutes>();
+
+const App = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
     setTimeout(() => {
@@ -18,18 +27,18 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {data ? <Text>{data}</Text> : <Loading />}
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <SafeAreaProvider>
+        <AppStack.Navigator screenOptions={{ headerShown: false }}>
+          <AppStack.Screen
+            name="Authentication"
+            component={AuthenticationNavigator}
+          />
+          <AppStack.Screen name="Home" component={HomeNavigator} />
+        </AppStack.Navigator>
+      </SafeAreaProvider>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default App;
