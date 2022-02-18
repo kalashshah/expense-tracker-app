@@ -12,7 +12,7 @@ export interface StackNavigationProps<
 export type AuthenticationRoutes = {
   Onboard: undefined;
   Login: undefined;
-  SignUp: undefined;
+  Signup: undefined;
   // ForgotPassword: undefined;
   // PasswordChanged: undefined;
 };

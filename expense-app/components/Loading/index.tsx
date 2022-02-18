@@ -1,8 +1,14 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { LayoutAnimation, StyleSheet, View } from "react-native";
 import Animation from "../Animation";
 
 const Loading = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      LayoutAnimation.easeInEaseOut();
+    }, 3000);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Animation source={require("../../assets/animations/loading.json")} />

@@ -23,6 +23,9 @@ const DrawerContent = () => {
 const Home = () => {
   return <Text>Home</Text>;
 };
+const Signup = () => {
+  return <Text>Signup</Text>;
+};
 
 const App = () => {
   const isFirstLaunch = useFirstLaunch();
@@ -40,6 +43,7 @@ const App = () => {
       >
         <AuthenticationStack.Screen name="Onboard" component={Onboard} />
         <AuthenticationStack.Screen name="Login" component={Login} />
+        <AuthenticationStack.Screen name="Signup" component={Signup} />
       </AuthenticationStack.Navigator>
     );
   };
