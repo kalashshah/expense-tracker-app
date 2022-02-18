@@ -1,30 +1,56 @@
-import React, { useEffect, useState } from "react";
-import { LayoutAnimation } from "react-native";
+import React from "react";
+import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { AppRoutes } from "./constants/AppRoutes";
-import {
-  AuthenticationNavigator,
-  HomeNavigator,
-} from "./components/Navigation";
-import axiosInstance from "./services/axiosInstance";
+import { DrawerRoutes } from "./constants/DrawerRoutes";
+import { AuthenticationRoutes } from "./constants/AuthenticationRoutes";
+
+import { Onboard, Login } from "./screens";
+import useFirstLaunch from "./hooks/useFirstLaunch";
+import Loading from "./components/Loading";
 
 const AppStack = createStackNavigator<AppRoutes>();
+const AuthenticationStack = createStackNavigator<AuthenticationRoutes>();
+const Drawer = createDrawerNavigator<DrawerRoutes>();
+
+const DrawerContent = () => {
+  return <Text>DrawerContent</Text>;
+};
+const Home = () => {
+  return <Text>Home</Text>;
+};
 
 const App = () => {
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    setTimeout(() => {
-      const getData = async () => {
-        const { data } = await axiosInstance.get("/");
-        LayoutAnimation.easeInEaseOut();
-        setData(data);
-      };
-      getData();
-    }, 3000);
-  }, []);
+  const isFirstLaunch = useFirstLaunch();
+  console.log(isFirstLaunch);
+
+  if (isFirstLaunch === null) {
+    return <Loading />;
+  }
+
+  const AuthenticationNavigator = () => {
+    return (
+      <AuthenticationStack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName={isFirstLaunch ? "Onboard" : "Login"}
+      >
+        <AuthenticationStack.Screen name="Onboard" component={Onboard} />
+        <AuthenticationStack.Screen name="Login" component={Login} />
+      </AuthenticationStack.Navigator>
+    );
+  };
+
+  const HomeNavigator = () => {
+    return (
+      <Drawer.Navigator drawerContent={DrawerContent}>
+        <Drawer.Screen name="Home" component={Home} />
+      </Drawer.Navigator>
+    );
+  };
 
   return (
     <NavigationContainer>
