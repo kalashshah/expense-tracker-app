@@ -1,5 +1,11 @@
 import React, { forwardRef } from "react";
-import { TextInput, TextInputProps, View, StyleSheet } from "react-native";
+import {
+  TextInput,
+  TextInputProps,
+  View,
+  StyleSheet,
+  Text,
+} from "react-native";
 import { Entypo as Icon } from "@expo/vector-icons";
 import RoundedIcon from "../RoundedIcon";
 
@@ -13,27 +19,30 @@ const validationColor = "#223e4b";
 const TextInputField = forwardRef<TextInput, Props>(
   ({ icon, error, touched, ...rest }, ref) => {
     return (
-      <View style={styles.container}>
-        <View style={{ padding: 8 }}>
-          <Icon name={icon as any} color={validationColor} size={16} />
+      <>
+        <View style={styles.container}>
+          <View style={styles.icon}>
+            <Icon name={icon as any} color={validationColor} size={16} />
+          </View>
+          <View style={styles.input}>
+            <TextInput
+              underlineColorAndroid="transparent"
+              placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              {...{ ref }}
+              {...rest}
+            />
+          </View>
+          {touched && (
+            <RoundedIcon
+              size={16}
+              name={error ? "x" : "check"}
+              color="white"
+              backgroundColor={error ? "#FF0058" : "#2EB872"}
+            />
+          )}
         </View>
-        <View style={styles.input}>
-          <TextInput
-            underlineColorAndroid="transparent"
-            placeholderTextColor="rgba(34, 62, 75, 0.7)"
-            {...{ ref }}
-            {...rest}
-          />
-        </View>
-        {touched && (
-          <RoundedIcon
-            size={16}
-            name={error ? "x" : "check"}
-            color="white"
-            backgroundColor={error ? "#FF0058" : "#2EB872"}
-          />
-        )}
-      </View>
+        {touched && error && <Text style={styles.error}>{error}</Text>}
+      </>
     );
   }
 );
@@ -51,7 +60,15 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     padding: 8,
   },
+  icon: {
+    padding: 8,
+  },
   input: {
     flex: 1,
+  },
+  error: {
+    color: "#FF0058",
+    fontSize: 12,
+    textAlign: "center",
   },
 });

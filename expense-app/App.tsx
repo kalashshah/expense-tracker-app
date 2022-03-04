@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -9,9 +9,12 @@ import { AppRoutes } from "./constants/AppRoutes";
 import { DrawerRoutes } from "./constants/DrawerRoutes";
 import { AuthenticationRoutes } from "./constants/AuthenticationRoutes";
 
-import { Onboard, Login } from "./screens";
+import { Onboard, Login, Signup, Home } from "./screens";
 import useFirstLaunch from "./hooks/useFirstLaunch";
 import Loading from "./components/Loading";
+import AuthContextProvider from "./store/AuthContext";
+import useStart from "./hooks/useStart";
+import useAuth from "./hooks/useAuth";
 
 const AppStack = createStackNavigator<AppRoutes>();
 const AuthenticationStack = createStackNavigator<AuthenticationRoutes>();
@@ -20,20 +23,23 @@ const Drawer = createDrawerNavigator<DrawerRoutes>();
 const DrawerContent = () => {
   return <Text>DrawerContent</Text>;
 };
-const Home = () => {
-  return <Text>Home</Text>;
-};
-const Signup = () => {
-  return <Text>Signup</Text>;
-};
 
 const App = () => {
   const isFirstLaunch = useFirstLaunch();
-  console.log(isFirstLaunch);
+  const { isLoggedIn, token, user } = useStart();
+  const auth = useAuth();
 
-  if (isFirstLaunch === null) {
-    return <Loading />;
-  }
+  const login = async () => {
+    if (isLoggedIn && token && user) {
+      await auth.login(token, user);
+    }
+  };
+
+  useEffect(() => {
+    login();
+  }, [isLoggedIn, isFirstLaunch, token, user]);
+
+  if (isFirstLaunch === null || isLoggedIn === null) return <Loading />;
 
   const AuthenticationNavigator = () => {
     return (
@@ -48,7 +54,7 @@ const App = () => {
     );
   };
 
-  const HomeNavigator = () => {
+  const MainNavigator = () => {
     return (
       <Drawer.Navigator drawerContent={DrawerContent}>
         <Drawer.Screen name="Home" component={Home} />
@@ -59,16 +65,25 @@ const App = () => {
   return (
     <NavigationContainer>
       <SafeAreaProvider>
-        <AppStack.Navigator screenOptions={{ headerShown: false }}>
+        <AppStack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName={isLoggedIn ? "Main" : "Authentication"}
+        >
           <AppStack.Screen
             name="Authentication"
             component={AuthenticationNavigator}
           />
-          <AppStack.Screen name="Home" component={HomeNavigator} />
+          <AppStack.Screen name="Main" component={MainNavigator} />
         </AppStack.Navigator>
       </SafeAreaProvider>
     </NavigationContainer>
   );
 };
 
-export default App;
+export default function AppWrapper() {
+  return (
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
+  );
+}

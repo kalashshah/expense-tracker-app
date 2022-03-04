@@ -51,6 +51,7 @@ const Onboard = ({
 }: StackNavigationProps<AuthenticationRoutes, "Onboard">) => {
   const onDone = () => navigation.navigate("Login");
   const onSkip = () => navigation.replace("Login");
+
   const DoneButtonComponent = ({ ...props }) => (
     <TouchableOpacity style={styles.doneButton} {...props}>
       <Text style={styles.doneText}>Done</Text>

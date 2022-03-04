@@ -11,5 +11,5 @@ export interface StackNavigationProps<
 
 export type AppRoutes = {
   Authentication: undefined;
-  Home: undefined;
+  Main: undefined;
 };

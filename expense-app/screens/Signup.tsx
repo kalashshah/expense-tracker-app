@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { CommonActions } from "@react-navigation/native";
 import * as yup from "yup";
@@ -13,10 +13,14 @@ import AuthForm from "../components/AuthForm";
 import TextInputField from "../components/TextInputField";
 import axiosInstance from "../services/axiosInstance";
 import useAuth from "../hooks/useAuth";
-import { ILogin } from "../types/Authentication";
-import AuthContext from "../store/AuthContext";
+import { ISignup } from "../types/Authentication";
 
-const LoginSchema = yup.object().shape({
+const SignupSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Name is required")
+    .min(3, "Name must be at least 3 characters")
+    .max(30, "Name must be smaller than 20 characters"),
   email: yup
     .string()
     .required("Email ID is required")
@@ -28,9 +32,10 @@ const LoginSchema = yup.object().shape({
     .max(15, "Password must be smaller than 15 characters"),
 });
 
-const Login = ({
+const Signup = ({
   navigation,
-}: StackNavigationProps<AuthenticationRoutes, "Login">) => {
+}: StackNavigationProps<AuthenticationRoutes, "Signup">) => {
+  const email = useRef<TextInput>(null);
   const password = useRef<TextInput>(null);
   const auth = useAuth();
 
@@ -42,13 +47,17 @@ const Login = ({
     touched,
     isSubmitting,
   } = useFormik({
-    validationSchema: LoginSchema,
-    initialValues: { email: "", password: "", authentication: "" },
-    onSubmit: (values: ILogin, { setFieldError, setSubmitting }) => {
+    validationSchema: SignupSchema,
+    initialValues: { name: "", email: "", password: "", authentication: "" },
+    onSubmit: (values: ISignup, { setFieldError, setSubmitting }) => {
       const submit = async () => {
-        const data = { email: values.email, password: values.password };
+        const data = {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        };
         try {
-          const res = await axiosInstance.post("/account/signin", data);
+          const res = await axiosInstance.post("/account/signup", data);
           await auth.login(res.data.token, res.data.result);
           navigation.dispatch(
             CommonActions.reset({ index: 0, routes: [{ name: "Main" }] })
@@ -68,10 +77,10 @@ const Login = ({
   return (
     <AuthForm
       source={require("../assets/animations/loading.json")}
-      title="Login"
-      link="Sign Up"
-      linkDescription="Don't have an account?"
-      onPress={() => navigation.navigate("Signup")}
+      title="Sign Up"
+      link="Login"
+      linkDescription="Already have an account?"
+      onPress={() => navigation.navigate("Login")}
       {...{ errors, handleSubmit, isSubmitting }}
     >
       <View
@@ -84,6 +93,24 @@ const Login = ({
       >
         <View style={styles.fieldContainer}>
           <TextInputField
+            icon="user"
+            keyboardType="default"
+            placeholder="Enter your first name"
+            onChangeText={handleChange("name")}
+            onBlur={handleBlur("name")}
+            error={errors.name}
+            touched={touched.name}
+            autoCompleteType="name"
+            autoCapitalize="words"
+            returnKeyType="next"
+            returnKeyLabel="next"
+            onSubmitEditing={() => email.current?.focus()}
+            blurOnSubmit={false}
+          />
+        </View>
+        <View style={styles.fieldContainer}>
+          <TextInputField
+            ref={email}
             icon="mail"
             keyboardType="email-address"
             placeholder="Enter your email"
@@ -121,7 +148,7 @@ const Login = ({
   );
 };
 
-export default Login;
+export default Signup;
 
 const styles = StyleSheet.create({
   fieldContainer: {

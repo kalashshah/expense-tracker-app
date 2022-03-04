@@ -1,20 +1,14 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useMemo } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { IAuthContext } from "../types/Context";
 import { IUser } from "../types/User";
 
-type AuthContextType = {
-  isLoggedIn: boolean;
-  user: IUser | null;
-  token: string | null;
-  login: (token: string, user: IUser) => void;
-  logout: () => void;
-};
-
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<IAuthContext>({
   isLoggedIn: false,
   user: null,
   token: null,
-  login: () => {},
-  logout: () => {},
+  login: async () => {},
+  logout: async () => {},
 });
 
 interface Props {
@@ -22,29 +16,38 @@ interface Props {
 }
 
 const AuthContextProvider = ({ children }: Props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<IUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
-  const login = (token: string, user: IUser) => {
+  const login = async (token: string, user: IUser) => {
+    console.log("In login");
     setIsLoggedIn(true);
     setUser(user);
     setToken(token);
+    await AsyncStorage.multiSet([
+      ["@token", token],
+      ["@user", JSON.stringify(user)],
+    ]);
   };
 
-  const logout = () => {
+  const logout = async () => {
     setIsLoggedIn(false);
     setUser(null);
     setToken(null);
+    await AsyncStorage.multiRemove(["@token", "@user"]);
   };
 
-  const value = {
-    isLoggedIn,
-    user,
-    token,
-    login,
-    logout,
-  };
+  const value = useMemo(
+    () => ({
+      isLoggedIn,
+      user,
+      token,
+      login,
+      logout,
+    }),
+    [token, user, isLoggedIn]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

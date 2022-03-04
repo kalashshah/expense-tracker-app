@@ -1,22 +1,21 @@
-import {
-  Button,
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
 import React from "react";
-import Animation from "../Animation";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { FormikErrors } from "formik";
+import Button from "../Button";
+import Animation from "../Animation";
+import { ILogin } from "../../types/Authentication";
 
 interface AuthFormProps {
   source: string;
   title: string;
-  children: JSX.Element,
+  children: JSX.Element;
   link: string;
-  linkText: string;
+  linkDescription: string;
   onPress: () => void;
+  errors: FormikErrors<ILogin>;
+  handleSubmit: () => void;
+  isSubmitting: boolean;
 }
 
 const AuthForm = (props: AuthFormProps) => {
@@ -28,10 +27,24 @@ const AuthForm = (props: AuthFormProps) => {
       <View style={styles.formContainer}>
         <View style={styles.formHeader}>
           <Text style={styles.title}>{props.title}</Text>
-          <View style={styles.children}>{props.children}</View>
-          <Text style={styles.linkText}>{props.linkText}</Text>
+        </View>
+        <View style={styles.center}>
+          <View style={styles.children}>
+            {props.children}
+            {props.errors.authentication && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.error}>{props.errors.authentication}</Text>
+              </View>
+            )}
+            <Button
+              label={props.title}
+              isSubmitting={props.isSubmitting}
+              onPress={props.handleSubmit}
+            />
+          </View>
+          <Text style={styles.linkText}>{props.linkDescription}</Text>
           <TouchableOpacity onPress={props.onPress}>
-            <Text style={styles.link}>Sign Up</Text>
+            <Text style={styles.link}>{props.link}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -47,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   animationContainer: {
-    height: Dimensions.get("window").height / 2.5,
+    height: Dimensions.get("window").height / 2.3,
     backgroundColor: "#FF8A8A",
     justifyContent: "center",
     alignItems: "center",
@@ -71,14 +84,26 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
   },
+  center: {
+    alignItems: "center",
+    paddingTop: 20,
+  },
   children: {
     flex: 1,
+    padding: 10,
+    alignItems: "center",
+  },
+  errorContainer: {
+    paddingBottom: 5,
+  },
+  error: {
+    color: "#FF0058",
   },
   linkText: {
-    fontSize: 20,
+    fontSize: 18,
   },
   link: {
     color: "#DB1F48",
-    fontSize: 20,
+    fontSize: 18,
   },
 });

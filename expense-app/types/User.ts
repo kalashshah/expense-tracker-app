@@ -5,7 +5,3 @@ export interface IUser {
   password: string;
   __v: number;
 }
-
-export interface Token {
-  token: string;
-}
