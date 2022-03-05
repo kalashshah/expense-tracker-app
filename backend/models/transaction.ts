@@ -3,7 +3,7 @@ import { ITransaction } from "../types/Transaction";
 
 const Transaction = new Schema(
   {
-    type: { type: Boolean, required: true },
+    type: { type: String, required: true },
     name: { type: String, required: true },
     category: {
       type: Schema.Types.ObjectId,
@@ -21,7 +21,7 @@ const Transaction = new Schema(
       required: true,
     },
   },
-  { timestamps: true, versionKey: false }
+  { versionKey: false }
 );
 
 export default model<ITransaction>("Transaction", Transaction);

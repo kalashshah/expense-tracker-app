@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import User from "../models/user";
 import { Request, Response } from "express";
-import { ISignupData, ISigninData } from "../types/User";
 
-const SECRET_KEY = (process.env.SECRET_KEY as string) || "dev-test-key";
+import { SECRET_KEY } from "../util/secret";
+import User from "../models/user";
+import { ISignupData, ISigninData } from "../types/User";
 
 const signin = async (req: Request, res: Response) => {
   const { email, password }: ISigninData = req.body;
@@ -18,10 +18,11 @@ const signin = async (req: Request, res: Response) => {
     if (!isCorrect)
       return res.status(400).json({ message: "Username or password invalid" });
     const token = jwt.sign({ email, id: user._id }, SECRET_KEY, {
-      expiresIn: "1h",
+      noTimestamp: true,
     });
     res.status(200).json({ result: user, token });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Signin failed" });
   }
 };
@@ -38,7 +39,9 @@ const signup = async (req: Request, res: Response) => {
       email,
       password: encryptedPassword,
     });
-    const token = jwt.sign({ email, id: user._id }, SECRET_KEY);
+    const token = jwt.sign({ email, id: user._id }, SECRET_KEY, {
+      noTimestamp: true,
+    });
     res.status(200).json({ result: user, token });
   } catch (error) {
     res.status(500).json({ message: "Signup failed" });

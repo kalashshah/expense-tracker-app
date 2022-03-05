@@ -1,12 +1,9 @@
-import * as dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import { userRoutes } from "../routes";
-import "../models/db";
-
-dotenv.config();
-const PORT = parseInt(process.env.PORT as string) || 8000;
+import mongoose, { ConnectOptions } from "mongoose";
+import { PORT, MONGO_URI } from "../util/secret";
+import { userRoutes, transactionRoutes, categoryRoutes } from "../routes";
 
 const app = express();
 
@@ -19,7 +16,27 @@ app.get("/", (req, res) => {
 });
 
 app.use("/account", userRoutes);
+app.use("/transaction", transactionRoutes);
+app.use("/category", categoryRoutes);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server listening on port ${PORT}`);
-});
+interface Options extends ConnectOptions {
+  useNewUrlParser: boolean;
+  useUnifiedTopology: boolean;
+}
+
+const options: Options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+mongoose
+  .connect(MONGO_URI, options)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    app.listen(PORT, () => {
+      console.log(`🚀 Server listening on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log("Error connecting to MongoDB: ", error);
+  });

@@ -3,11 +3,17 @@ import { ICategory } from "../types/Category";
 
 const Category = new Schema(
   {
-    type: { type: Boolean, required: true },
+    type: { type: String, required: true },
     name: { type: String, required: true },
     icon: { type: String, required: true, trim: true },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      index: true,
+      required: true,
+    },
   },
-  { timestamps: true, versionKey: false }
+  { versionKey: false }
 );
 
 export default model<ICategory>("Category", Category);
