@@ -11,4 +11,9 @@ export interface DrawerNavigationProps<
 
 export type DrawerRoutes = {
   Home: undefined;
+  Settings: undefined;
+  Dashboard: undefined;
+  Wallets: undefined;
+  Budgets: undefined;
+  "Ethereum Wallet": undefined;
 };

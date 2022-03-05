@@ -21,7 +21,6 @@ const AuthContextProvider = ({ children }: Props) => {
   const [token, setToken] = useState<string | null>(null);
 
   const login = async (token: string, user: IUser) => {
-    console.log("In login");
     setIsLoggedIn(true);
     setUser(user);
     setToken(token);
