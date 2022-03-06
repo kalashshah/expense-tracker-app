@@ -7,3 +7,25 @@ export interface ICategory extends Document {
   icon: string;
   user: string;
 }
+
+export interface IAddCategory {
+  type: string;
+  name: string;
+  icon: string;
+  user: string;
+}
+
+export interface IUpdateCategory {
+  type?: string;
+  name?: string;
+  icon?: string;
+  user: string;
+}
+
+export interface IDeleteCategory {
+  user: string;
+}
+
+export interface IGetCategory {
+  user: string;
+}
