@@ -1,14 +1,20 @@
 import { Request, Response } from "express";
 
-import { getUser } from "../util/user";
 import Transaction from "../models/transaction";
 import Category from "../models/category";
 import { ITransaction } from "../types/Transaction";
 
 export const addTransaction = async (req: Request, res: Response) => {
   try {
-    const { type, name, category, date, amount, description }: ITransaction =
-      req.body;
+    const {
+      type,
+      name,
+      category,
+      date,
+      amount,
+      description,
+      user,
+    }: ITransaction = req.body;
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) return res.status(401).send("Unauthorized");
     if (!type || !name || !category || !date || !amount)
@@ -19,7 +25,6 @@ export const addTransaction = async (req: Request, res: Response) => {
         .send("Description cannot be more than 100 characters");
     if (name.length > 50)
       return res.status(400).send("Name cannot be more than 50 characters");
-    const id = getUser(token);
     const existingCategory = await Category.findOne({ name: category });
     console.log(existingCategory);
     if (!existingCategory) return res.status(404).send("Category not found");
@@ -32,7 +37,7 @@ export const addTransaction = async (req: Request, res: Response) => {
       date,
       amount,
       description,
-      user: id,
+      user,
     });
     await transaction.save();
     return res.status(201).send(transaction);
