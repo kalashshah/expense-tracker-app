@@ -22,10 +22,6 @@ export interface IUpdateCategory {
   user: string;
 }
 
-export interface IDeleteCategory {
-  user: string;
-}
-
 export interface IGetCategory {
   user: string;
 }

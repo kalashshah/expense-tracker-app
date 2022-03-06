@@ -10,3 +10,7 @@ export interface ITransaction extends Document {
   description: string;
   user: string;
 }
+
+export interface IGetTransaction {
+  user: string;
+}

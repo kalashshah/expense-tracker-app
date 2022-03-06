@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 
 import Category from "../models/category";
-import { IAddCategory, IDeleteCategory, IGetCategory } from "../types/Category";
+import { IAddCategory, IGetCategory } from "../types/Category";
 
 export const addCategory = async (req: Request, res: Response) => {
   try {
@@ -38,9 +38,7 @@ export const updateCategory = async (req: Request, res: Response) => {
 
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
-    const { user }: IDeleteCategory = req.body;
     const { id } = req.params;
-    if (!user) return res.status(400).send("User not found");
     if (!id) return res.status(400).send("Invalid category id");
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(400).send("Invalid ID");
