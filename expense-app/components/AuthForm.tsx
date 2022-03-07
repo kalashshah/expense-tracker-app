@@ -2,9 +2,9 @@ import React from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FormikErrors } from "formik";
-import Button from "../Button";
-import Animation from "../Animation";
-import { ILogin } from "../../types/Authentication";
+import Button from "./Button";
+import Animation from "./Animation";
+import { ILogin } from "../types/Authentication";
 
 interface AuthFormProps {
   source: string;

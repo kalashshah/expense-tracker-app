@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { LayoutAnimation, StyleSheet, View } from "react-native";
-import Animation from "../Animation";
+import Animation from "./Animation";
 
 const Loading = () => {
   useEffect(() => {
@@ -11,7 +11,7 @@ const Loading = () => {
 
   return (
     <View style={styles.container}>
-      <Animation source={require("../../assets/animations/loading.json")} />
+      <Animation source={require("../assets/animations/loading.json")} />
     </View>
   );
 };

@@ -7,8 +7,8 @@ import {
 } from "@react-navigation/drawer";
 import { Entypo } from "@expo/vector-icons";
 
-import Animation from "../Animation";
-import useAuth from "../../hooks/useAuth";
+import Animation from "./Animation";
+import useAuth from "../hooks/useAuth";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const DrawerContent = (props: DrawerContentComponentProps) => {
@@ -21,7 +21,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
         contentContainerStyle={styles.container}
       >
         <Animation
-          source={require("../../assets/animations/avatar.json")}
+          source={require("../assets/animations/avatar.json")}
           style={styles.animation}
         />
         <Text style={styles.name}>{`Welcome ${user?.name}`}</Text>

@@ -1,10 +1,10 @@
 {
-  "name": "backend",
+  "name": "expense-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "backend for expense tracker mobile app",
   "main": "dist/src/index.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "postinstall": "tsc",
     "build": "tsc",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",

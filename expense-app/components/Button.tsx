@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import Animation from "../Animation";
+import Animation from "./Animation";
 
 interface Props {
   label: string;
@@ -18,7 +18,7 @@ const Button = ({ label, onPress, isSubmitting }: Props) => {
     >
       {isSubmitting ? (
         <Animation
-          source={require("../../assets/animations/button-loading.json")}
+          source={require("../assets/animations/button-loading.json")}
           style={styles.animation}
         />
       ) : (

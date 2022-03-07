@@ -8,7 +8,7 @@ import {
 } from "@expo/vector-icons";
 
 import { DrawerRoutes } from "./DrawerRoutes";
-import DrawerContent from "../components/DrawerContent";
+import DrawerContent from "../components/DrawingContent";
 import { Home } from "../screens";
 import { Text } from "react-native";
 

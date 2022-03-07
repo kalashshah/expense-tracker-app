@@ -7,7 +7,7 @@ import {
   Text,
 } from "react-native";
 import { Entypo as Icon } from "@expo/vector-icons";
-import RoundedIcon from "../RoundedIcon";
+import RoundedIcon from "./RoundedIcon";
 
 interface Props extends TextInputProps {
   icon: string;
