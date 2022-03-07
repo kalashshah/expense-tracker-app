@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { CommonActions } from "@react-navigation/native";
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -12,7 +13,18 @@ import useAuth from "../hooks/useAuth";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const DrawerContent = (props: DrawerContentComponentProps) => {
-  const { user } = useAuth();
+  const auth = useAuth();
+
+  const logoutHandler = () => {
+    console.log("why");
+    auth.logout();
+    props.navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "Authentication" }],
+      })
+    );
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -24,7 +36,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           source={require("../assets/animations/avatar.json")}
           style={styles.animation}
         />
-        <Text style={styles.name}>{`Welcome ${user?.name}`}</Text>
+        <Text style={styles.name}>{`Welcome ${auth.user?.name}`}</Text>
         <View style={styles.items}>
           <DrawerItemList {...props} />
         </View>
@@ -34,7 +46,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
           <Entypo name="share" size={22} />
           <Text style={styles.buttonText}>Share</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={logoutHandler}>
           <Entypo name="log-out" size={22} />
           <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>

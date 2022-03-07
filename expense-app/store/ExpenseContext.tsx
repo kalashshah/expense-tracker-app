@@ -1,49 +1,49 @@
-import React, { useState, createContext } from "react";
-import { Expense } from "../types/Expense";
+// import React, { useState, createContext } from "react";
+// import { Expense } from "../types/Transaction";
 
-interface ExpenseContextType {
-  expenses: Expense[];
-  addExpense: (expense: Expense) => void;
-  addExpenses: (expenses: Expense[]) => void;
-  deleteExpense: (expense: Expense) => void;
-}
+// interface ExpenseContextType {
+//   expenses: Expense[];
+//   addExpense: (expense: Expense) => void;
+//   addExpenses: (expenses: Expense[]) => void;
+//   deleteExpense: (expense: Expense) => void;
+// }
 
-export const ExpenseContext = createContext<ExpenseContextType>({
-  expenses: [],
-  addExpense: () => {},
-  addExpenses: () => {},
-  deleteExpense: () => {},
-});
+// export const ExpenseContext = createContext<ExpenseContextType>({
+//   expenses: [],
+//   addExpense: () => {},
+//   addExpenses: () => {},
+//   deleteExpense: () => {},
+// });
 
-interface Props {
-  children: JSX.Element;
-}
+// interface Props {
+//   children: JSX.Element;
+// }
 
-const ExpenseContextProvider = ({ children }: Props) => {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+// const ExpenseContextProvider = ({ children }: Props) => {
+//   const [expenses, setExpenses] = useState<Expense[]>([]);
 
-  const addExpense = (expense: Expense) => {
-    setExpenses((exps) => [...exps, expense]);
-  };
+//   const addExpense = (expense: Expense) => {
+//     setExpenses((exps) => [...exps, expense]);
+//   };
 
-  const addExpenses = (expenses: Expense[]) => {
-    setExpenses((exps) => [...exps, ...expenses]);
-  };
+//   const addExpenses = (expenses: Expense[]) => {
+//     setExpenses((exps) => [...exps, ...expenses]);
+//   };
 
-  const deleteExpense = (expense: Expense) => {
-    setExpenses((exps) => exps.filter((e) => e._id !== expense._id));
-  };
+//   const deleteExpense = (expense: Expense) => {
+//     setExpenses((exps) => exps.filter((e) => e._id !== expense._id));
+//   };
 
-  const value = {
-    expenses,
-    addExpense,
-    addExpenses,
-    deleteExpense,
-  };
+//   const value = {
+//     expenses,
+//     addExpense,
+//     addExpenses,
+//     deleteExpense,
+//   };
 
-  return (
-    <ExpenseContext.Provider value={value}>{children}</ExpenseContext.Provider>
-  );
-};
+//   return (
+//     <ExpenseContext.Provider value={value}>{children}</ExpenseContext.Provider>
+//   );
+// };
 
-export default ExpenseContextProvider;
+// export default ExpenseContextProvider;
