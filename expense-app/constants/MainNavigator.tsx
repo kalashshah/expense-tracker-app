@@ -1,24 +1,43 @@
 import React from "react";
+import { Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import {
   MaterialIcons as Icon,
   MaterialCommunityIcons,
-  Entypo,
   FontAwesome5,
 } from "@expo/vector-icons";
 
 import { DrawerRoutes } from "./DrawerRoutes";
+import { CategoryRoutes } from "./CategoryTopRoutes";
 import DrawerContent from "../components/DrawingContent";
-import { Home } from "../screens";
-import { Text } from "react-native";
+import { Home, Income } from "../screens";
 
 const Drawer = createDrawerNavigator<DrawerRoutes>();
+const TopTab = createMaterialTopTabNavigator<CategoryRoutes>();
 
 const Dashboard = () => <Text>Dashboard</Text>;
 const Wallet = () => <Text>Wallet</Text>;
 const Budget = () => <Text>Budget</Text>;
 const Ethereum = () => <Text>Ethereum</Text>;
 const Settings = () => <Text>Settings</Text>;
+
+const CategoryTabNavigator = () => {
+  return (
+    <TopTab.Navigator
+      initialRouteName="Income"
+      screenOptions={{
+        tabBarActiveTintColor: "#CF291D",
+        tabBarInactiveTintColor: "gray",
+        tabBarIndicatorStyle: { backgroundColor: "#CF291D" },
+        tabBarLabelStyle: { fontSize: 14 },
+      }}
+    >
+      <TopTab.Screen name="Income" component={Income} />
+      <TopTab.Screen name="Expense" component={Ethereum} />
+    </TopTab.Navigator>
+  );
+};
 
 const MainNavigator = () => {
   return (
@@ -51,10 +70,10 @@ const MainNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name="Wallets"
-        component={Wallet}
+        name="Categories"
+        component={CategoryTabNavigator}
         options={{
-          drawerIcon: () => <Entypo name="wallet" size={24} />,
+          drawerIcon: () => <Icon name="category" size={24} />,
         }}
       />
       <Drawer.Screen

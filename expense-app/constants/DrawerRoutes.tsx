@@ -13,7 +13,7 @@ export type DrawerRoutes = {
   Home: undefined;
   Settings: undefined;
   Dashboard: undefined;
-  Wallets: undefined;
+  Categories: undefined;
   Budgets: undefined;
   "Ethereum Wallet": undefined;
 };
