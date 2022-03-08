@@ -10,7 +10,7 @@ import {
 
 import { DrawerRoutes } from "./DrawerRoutes";
 import { CategoryRoutes } from "./CategoryTopRoutes";
-import DrawerContent from "../components/DrawingContent";
+import DrawerContent from "../components/DrawerContent";
 import { Home, Income } from "../screens";
 
 const Drawer = createDrawerNavigator<DrawerRoutes>();

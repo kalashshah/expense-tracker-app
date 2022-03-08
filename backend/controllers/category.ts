@@ -6,13 +6,13 @@ import { IAddCategory, IGetCategory } from "../types/Category";
 
 export const addCategory = async (req: Request, res: Response) => {
   try {
-    const { type, name, icon, user }: IAddCategory = req.body;
-    if (!type || !name || !icon || !user)
+    const { type, name, icon, color, user }: IAddCategory = req.body;
+    if (!type || !name || !icon || !color || !user)
       return res.status(400).send("Bad request, missing fields");
     const existingCategory = await Category.findOne({ name, type, user });
     if (existingCategory)
       return res.status(400).send("Category already exists");
-    const category = new Category({ icon, name, type, user });
+    const category = new Category({ icon, name, type, color, user });
     await category.save();
     res.status(201).send(category);
   } catch (error) {

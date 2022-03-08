@@ -5,6 +5,7 @@ export interface ICategory extends Document {
   type: string;
   name: string;
   icon: string;
+  color: string;
   user: string;
 }
 
@@ -12,6 +13,7 @@ export interface IAddCategory {
   type: string;
   name: string;
   icon: string;
+  color: string;
   user: string;
 }
 
@@ -19,6 +21,7 @@ export interface IUpdateCategory {
   type?: string;
   name?: string;
   icon?: string;
+  color?: string;
   user: string;
 }
 

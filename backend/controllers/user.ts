@@ -5,8 +5,9 @@ import { Request, Response } from "express";
 import { SECRET_KEY } from "../util/secret";
 import User from "../models/user";
 import { ISignupData, ISigninData } from "../types/User";
+import { createDefaultCategories } from "../util/helper";
 
-const signin = async (req: Request, res: Response) => {
+export const signin = async (req: Request, res: Response) => {
   const { email, password }: ISigninData = req.body;
   try {
     const user = await User.findOne({ email });
@@ -27,7 +28,7 @@ const signin = async (req: Request, res: Response) => {
   }
 };
 
-const signup = async (req: Request, res: Response) => {
+export const signup = async (req: Request, res: Response) => {
   const { name, email, password }: ISignupData = req.body;
   try {
     const existingUser = await User.findOne({ email });
@@ -42,10 +43,10 @@ const signup = async (req: Request, res: Response) => {
     const token = jwt.sign({ email, id: user._id }, SECRET_KEY, {
       noTimestamp: true,
     });
+    await createDefaultCategories(user._id);
     res.status(200).json({ result: user, token });
   } catch (error) {
     res.status(500).json({ message: "Signup failed" });
   }
 };
 
-export { signin, signup };

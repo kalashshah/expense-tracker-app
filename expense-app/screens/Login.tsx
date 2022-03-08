@@ -14,7 +14,6 @@ import TextInputField from "../components/TextInputField";
 import axiosInstance from "../services/axiosInstance";
 import useAuth from "../hooks/useAuth";
 import { ILogin } from "../types/Authentication";
-import AuthContext from "../store/AuthContext";
 
 const LoginSchema = yup.object().shape({
   email: yup

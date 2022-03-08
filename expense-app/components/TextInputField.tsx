@@ -10,20 +10,24 @@ import { Entypo as Icon } from "@expo/vector-icons";
 import RoundedIcon from "./RoundedIcon";
 
 interface Props extends TextInputProps {
-  icon: string;
+  icon?: string;
   error?: string;
   touched?: boolean;
+  height?: number | string;
+  width?: number | string;
 }
 const validationColor = "#223e4b";
 
 const TextInputField = forwardRef<TextInput, Props>(
-  ({ icon, error, touched, ...rest }, ref) => {
+  ({ icon, error, touched, height, width, ...rest }, ref) => {
     return (
       <>
-        <View style={styles.container}>
-          <View style={styles.icon}>
-            <Icon name={icon as any} color={validationColor} size={16} />
-          </View>
+        <View style={[styles.container, { height, width }]}>
+          {icon && (
+            <View style={styles.icon}>
+              <Icon name={icon as any} color={validationColor} size={16} />
+            </View>
+          )}
           <View style={styles.input}>
             <TextInput
               underlineColorAndroid="transparent"
@@ -49,12 +53,15 @@ const TextInputField = forwardRef<TextInput, Props>(
 
 export default TextInputField;
 
+TextInputField.defaultProps = {
+  height: 48,
+  width: 300,
+};
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    height: 48,
-    width: 300,
     borderRadius: 8,
     borderColor: validationColor,
     borderWidth: StyleSheet.hairlineWidth,
