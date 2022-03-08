@@ -1,6 +1,12 @@
 import React from "react";
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { FormikErrors } from "formik";
 import Button from "./Button";
 import Animation from "./Animation";
