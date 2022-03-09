@@ -11,7 +11,7 @@ import {
 import { DrawerRoutes } from "./DrawerRoutes";
 import { CategoryRoutes } from "./CategoryTopRoutes";
 import DrawerContent from "../components/DrawerContent";
-import { Home, Income } from "../screens";
+import { Home, Category } from "../screens";
 
 const Drawer = createDrawerNavigator<DrawerRoutes>();
 const TopTab = createMaterialTopTabNavigator<CategoryRoutes>();
@@ -33,8 +33,16 @@ const CategoryTabNavigator = () => {
         tabBarLabelStyle: { fontSize: 14 },
       }}
     >
-      <TopTab.Screen name="Income" component={Income} />
-      <TopTab.Screen name="Expense" component={Ethereum} />
+      <TopTab.Screen
+        name="Income"
+        component={Category}
+        initialParams={{ type: "income" }}
+      />
+      <TopTab.Screen
+        name="Expense"
+        component={Category}
+        initialParams={{ type: "expense" }}
+      />
     </TopTab.Navigator>
   );
 };

@@ -10,6 +10,6 @@ export interface MaterialTopTabNavigationProps<
 }
 
 export type CategoryRoutes = {
-  Income: undefined;
-  Expense: undefined;
+  Income: { type: "income" };
+  Expense: { type: "expense" };
 };
