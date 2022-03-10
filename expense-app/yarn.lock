@@ -4856,6 +4856,11 @@ react-native-pager-view@5.4.9:
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.9.tgz#c0d40847cfeda5a4e729b53271b0ee0fedff3eb5"
   integrity sha512-D6tzxpwMGdl6CXgtskGWhKRc5cJakCazESRGt7PkqnpyiH3N35ft1KmR82pCSQetAFlytFiToeu3a/dG5CELvA==
 
+react-native-picker-horizontal@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-picker-horizontal/-/react-native-picker-horizontal-0.1.2.tgz#882f6cb63474e9dd4d829353c42e9d19310e1803"
+  integrity sha512-E4FWPo8kxgPXteYfYVvS2PNQvVwzNWOgtPP98ZJkIddw4XwU9xqguBUaRHUBiIe1W1xEucE7A0ZHNJ5BwsAKhQ==
+
 react-native-reanimated@2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.3.1.tgz#c7abad48f9e6c84610b0d5e270088ecd61750382"
@@ -4897,6 +4902,11 @@ react-native-screens@^3.4.0:
     react-freeze "^1.0.0"
     react-native-gradle-plugin "^0.0.3"
     warn-once "^0.1.0"
+
+react-native-smooth-picker@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-smooth-picker/-/react-native-smooth-picker-1.1.5.tgz#5e70b2ba5467045e022b77069904482854b8f657"
+  integrity sha512-bjbaydabhmhRBVOIbXclzz26LFgN0vOZwj65KWImg5Jqhqzkty5h9cryPf52uJQ22uPLvkrDtSVsHxgUb5qWcA==
 
 react-native-svg@12.1.1:
   version "12.1.1"

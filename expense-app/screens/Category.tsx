@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View, KeyboardAvoidingView, Animated } from "react-native";
+import {
+  StyleSheet,
+  View,
+  KeyboardAvoidingView,
+  Animated,
+  SafeAreaView,
+} from "react-native";
 
 import {
   MaterialTopTabNavigationProps,
@@ -57,7 +63,7 @@ const Category = ({
 
             const opacity = scrollY.interpolate({
               inputRange: [-1, 0, SIZE * index, SIZE * (index + 1)],
-              outputRange: [0, 1, 1, 0],
+              outputRange: [1, 1, 1, 0],
             });
 
             return (

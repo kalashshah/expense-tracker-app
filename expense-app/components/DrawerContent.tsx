@@ -15,7 +15,6 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
   const auth = useAuth();
 
   const logoutHandler = () => {
-    console.log("why");
     auth.logout();
     props.navigation.dispatch(
       CommonActions.reset({

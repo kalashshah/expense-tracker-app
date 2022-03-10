@@ -12,6 +12,7 @@ import { DrawerRoutes } from "./DrawerRoutes";
 import { CategoryRoutes } from "./CategoryTopRoutes";
 import DrawerContent from "../components/DrawerContent";
 import { Home, Category } from "../screens";
+import Transaction from "../screens/Transaction";
 
 const Drawer = createDrawerNavigator<DrawerRoutes>();
 const TopTab = createMaterialTopTabNavigator<CategoryRoutes>();
@@ -86,7 +87,7 @@ const MainNavigator = () => {
       />
       <Drawer.Screen
         name="Budgets"
-        component={Budget}
+        component={Transaction}
         options={{
           drawerIcon: () => <FontAwesome5 name="money-check" size={20} />,
         }}
