@@ -1,51 +1,34 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, SafeAreaView } from "react-native";
+import { ITransaction } from "../types/Transaction";
 
-interface Props {
-  searchPhrase: string;
-  setClicked: (clicked: boolean) => void;
+interface ItemProps {
+  name: string;
+  description: string;
 }
 
-const Item = ({ name, details }) => (
+const Item = ({ name, description }: ItemProps) => (
   <View style={styles.item}>
     <Text style={styles.title}>{name}</Text>
-    <Text style={styles.details}>{details}</Text>
+    <Text>{description}</Text>
   </View>
 );
 
-const TransactionList = ({ searchPhrase, setClicked, data }) => {
-  const renderItem = ({ item }) => {
-    if (searchPhrase === "") {
-      return <Item name={item.name} details={item.details} />;
-    }
-    if (
-      item.name
-        .toUpperCase()
-        .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
-    ) {
-      return <Item name={item.name} details={item.details} />;
-    }
-    if (
-      item.details
-        .toUpperCase()
-        .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
-    ) {
-      return <Item name={item.name} details={item.details} />;
-    }
-  };
+interface ListProps {
+  data: ITransaction[];
+}
 
+const TransactionList = ({ data }: ListProps) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View
-        onStartShouldSetResponder={() => {
-          setClicked(false);
-          return false;
-        }}
-      >
+      <View>
         <FlatList
           data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            const { name, description } = item;
+            return <Item name={name} description={description} />;
+          }}
+          keyExtractor={(item) => item._id}
         />
       </View>
     </SafeAreaView>

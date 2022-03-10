@@ -1,25 +1,27 @@
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import AnimatedLottieView from "lottie-react-native";
 
-const RadioButton = () => {
+interface Props {
+  setIsOn: React.Dispatch<React.SetStateAction<boolean>>;
+  left: string;
+  right: string;
+}
+
+const RadioButton = ({ setIsOn, left, right }: Props) => {
   const animation = useRef<AnimatedLottieView>(null);
-  const [isOn, setIsOn] = useState(false);
 
   const toggle = () => {
     setIsOn((isOn) => {
-      if (isOn) {
-        animation.current?.play(0, 45);
-      } else {
-        animation.current?.play(46, 90);
-      }
+      if (isOn) animation.current?.play(50, 90);
+      else animation.current?.play(0, 45);
       return !isOn;
     });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Expense</Text>
+      <Text style={styles.text}>{left}</Text>
       <TouchableWithoutFeedback onPress={toggle}>
         <AnimatedLottieView
           loop={false}
@@ -28,7 +30,7 @@ const RadioButton = () => {
           style={styles.animation}
         />
       </TouchableWithoutFeedback>
-      <Text style={styles.text}>Income</Text>
+      <Text style={styles.text}>{right}</Text>
     </View>
   );
 };

@@ -179,7 +179,6 @@ export const getTransactions = async (req: Request, res: Response) => {
       return res.status(200).send(transactions);
     }
 
-    console.log($gte, $lte);
     const transactions = await Transaction.aggregate([
       {
         $match: {

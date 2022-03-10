@@ -31,9 +31,7 @@ const Category = ({
   useEffect(() => {
     axiosInstance
       .get(`/category/${type}`)
-      .then((res) => {
-        setCategories(res.data);
-      })
+      .then((res) => setCategories(res.data))
       .catch(() => {});
   }, []);
 

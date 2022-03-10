@@ -1,18 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, ListRenderItemInfo } from "react-native";
 import SmoothPicker from "react-native-smooth-picker";
 
-const data: string[] = [
-  "Last year",
-  "Last 6 months",
-  "Last month",
-  "Last week",
-  "Yesterday",
-  "Today",
-  "All time",
-];
-const opacities: number[] = [1, 1, 0.6, 0.3, 0.1];
-const sizeText: number[] = [20, 15, 10];
+import { data, sizeText, opacities } from "../constants/TransactionData";
 
 interface ItemProps {
   opacity: number;
@@ -46,13 +36,9 @@ const ItemToRender = (
   const gap = Math.abs(index - indexSelected);
 
   let opacity = opacities[gap];
-  if (gap > 3) {
-    opacity = opacities[4];
-  }
   let fontSize = sizeText[gap];
-  if (gap > 1) {
-    fontSize = sizeText[2];
-  }
+  if (gap > 3) opacity = opacities[4];
+  if (gap > 1) fontSize = sizeText[2];
 
   return (
     <Item
@@ -64,9 +50,12 @@ const ItemToRender = (
   );
 };
 
-const Picker = () => {
-  const [selected, setSelected] = useState(5);
+interface Props {
+  selected: number;
+  setSelected: React.Dispatch<React.SetStateAction<number>>;
+}
 
+const Picker = ({ selected, setSelected }: Props) => {
   return (
     <View style={styles.container}>
       <SmoothPicker

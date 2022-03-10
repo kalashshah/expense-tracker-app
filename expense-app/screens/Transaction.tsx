@@ -1,36 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, View, Text } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
+import axios, { CancelTokenSource } from "axios";
 
 import Picker from "../components/Picker";
 import Loading from "../components/Loading";
 import SearchBar from "../components/SearchBar";
 import TransactionList from "../components/TransactionList";
-import { ITransaction } from "../types/Transaction";
 import ToggleButton from "../components/ToggleButton";
-
-interface Query {
-  [key: string]: string;
-}
+import { getDate } from "../constants/TransactionData";
+import axiosInstance from "../services/axiosInstance";
+import { ITransaction } from "../types/Transaction";
 
 const Transaction = () => {
   const [searchPhrase, setSearchPhrase] = useState<string>("");
   const [clicked, setClicked] = useState<boolean>(false);
-  const [fakeData, setFakeData] = useState<null | ITransaction[]>(null);
-  const [queries, setQueries] = useState<Query[]>([]);
+  const [transactions, setTransactions] = useState<null | ITransaction[]>(null);
+  const [isIncome, setIsIncome] = useState<boolean>(false);
+  const [selected, setSelected] = useState<number>(5);
+  const [page, setPage] = useState<number>(1);
+  let cancelToken: CancelTokenSource;
 
   useEffect(() => {
-    const getData = async () => {
-      const link = "/transactions";
-      const apiResponse = await fetch(
-        "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
-      );
-      const data = await apiResponse.json();
-      setFakeData(data);
-    };
-    getData();
-  }, []);
+    if (cancelToken) cancelToken.cancel("Cancelled");
+    cancelToken = axios.CancelToken.source();
 
-  if (!fakeData) return <Loading />;
+    const link = `/transaction/${isIncome ? "income" : "expense"}`;
+    axiosInstance
+      .get(link, {
+        params: {
+          ...(searchPhrase !== "" ? { search: searchPhrase } : {}),
+          date: getDate(selected),
+          page,
+        },
+        cancelToken: cancelToken.token,
+      })
+      .then((res) => setTransactions(res.data))
+      .catch(() => {});
+  }, [isIncome, selected, searchPhrase]);
+
+  if (!transactions) return <Loading />;
 
   return (
     <SafeAreaView style={styles.root}>
@@ -40,13 +48,9 @@ const Transaction = () => {
         clicked={clicked}
         setClicked={setClicked}
       />
-      <Picker />
-      <ToggleButton />
-      <TransactionList
-        searchPhrase={searchPhrase}
-        data={fakeData}
-        setClicked={setClicked}
-      />
+      <Picker {...{ selected, setSelected }} />
+      <ToggleButton left="Income" right="Expense" setIsOn={setIsIncome} />
+      <TransactionList data={transactions} />
     </SafeAreaView>
   );
 };
