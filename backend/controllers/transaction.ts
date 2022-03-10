@@ -175,6 +175,14 @@ export const getTransactions = async (req: Request, res: Response) => {
         { $sort: { date: -1 } },
         { $skip: (pageNo - 1) * PAGINATION_LIMIT },
         { $limit: PAGINATION_LIMIT },
+        {
+          $lookup: {
+            from: "categories",
+            localField: "category",
+            foreignField: "_id",
+            as: "category",
+          },
+        },
       ]);
       return res.status(200).send(transactions);
     }
@@ -190,6 +198,14 @@ export const getTransactions = async (req: Request, res: Response) => {
       { $sort: { date: -1 } },
       { $skip: (pageNo - 1) * PAGINATION_LIMIT },
       { $limit: PAGINATION_LIMIT },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "category",
+        },
+      },
     ]);
     res.status(200).send(transactions);
   } catch (error) {
