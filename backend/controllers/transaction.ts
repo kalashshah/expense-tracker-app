@@ -76,38 +76,6 @@ export const updateTransaction = async (req: Request, res: Response) => {
   }
 };
 
-export const getTransactions = async (req: Request, res: Response) => {
-  try {
-    const page = parseInt(req.params.page);
-    const { user }: IGetTransaction = req.body;
-    if (!page) return res.status(400).send("Bad Request, missing fields");
-    const transactions = await Transaction.find({ user })
-      .sort({ date: -1 })
-      .skip((page - 1) * PAGINATION_LIMIT)
-      .limit(PAGINATION_LIMIT);
-    res.status(200).send(transactions);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-};
-
-export const getTransactionsOfType = async (req: Request, res: Response) => {
-  try {
-    const { type } = req.params;
-    const page = parseInt(req.params.page);
-    const { user }: IGetTransaction = req.body;
-    if (!type || !page)
-      return res.status(400).send("Bad Request, missing fields");
-    const transactions = await Transaction.find({ user, type })
-      .sort({ date: -1 })
-      .skip((page - 1) * PAGINATION_LIMIT)
-      .limit(PAGINATION_LIMIT);
-    res.status(200).send(transactions);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-};
-
 export const getTransactionsOfCategory = async (
   req: Request,
   res: Response
@@ -180,120 +148,97 @@ export const getTotal = async (req: Request, res: Response) => {
   }
 };
 
-export const getYearTransactions = async (req: Request, res: Response) => {
+export const getTransactions = async (req: Request, res: Response) => {
   try {
-    const year = parseInt(req.params.year);
-    const page = parseInt(req.params.page);
     const { type } = req.params;
     const { user }: IGetTransaction = req.body;
-    if (!year || !page || !type)
-      return res.status(400).send("Bad Request, missing fields");
+    let { search, date, page } = req.query;
+
+    if (!date) date = "all";
+    const pageNo = page ? parseInt(page.toString(), 10) : 1;
+    const { $gte, $lte } = getDate(date.toString());
+
+    if (search) {
+      const transactions = await Transaction.aggregate([
+        {
+          $match: {
+            user: new ObjectId(user),
+            type,
+            date: { $gte, $lte },
+            $or: [
+              { name: { $regex: search, $options: "i" } },
+              { description: { $regex: search, $options: "i" } },
+              { category: { $regex: search, $options: "i" } },
+            ],
+          },
+        },
+        { $sort: { date: -1 } },
+        { $skip: (pageNo - 1) * PAGINATION_LIMIT },
+        { $limit: PAGINATION_LIMIT },
+      ]);
+      return res.status(200).send(transactions);
+    }
+
+    console.log($gte, $lte);
     const transactions = await Transaction.aggregate([
       {
         $match: {
           user: new ObjectId(user),
           type,
-          date: { $gte: new Date(year, 0, 1), $lte: new Date(year, 11, 31) },
+          date: { $gte, $lte },
         },
       },
       { $sort: { date: -1 } },
-      { $skip: (page - 1) * PAGINATION_LIMIT },
+      { $skip: (pageNo - 1) * PAGINATION_LIMIT },
       { $limit: PAGINATION_LIMIT },
     ]);
     res.status(200).send(transactions);
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 };
 
-export const getMonthTransactions = async (req: Request, res: Response) => {
-  try {
-    const month = parseInt(req.params.month);
-    const year = parseInt(req.params.year);
-    const page = parseInt(req.params.page);
-    const { type } = req.params;
-    const { user }: IGetTransaction = req.body;
-    if (!month || !year || !page)
-      return res.status(400).send("Bad Request, missing fields");
-    const transactions = await Transaction.aggregate([
-      {
-        $match: {
-          user: new ObjectId(user),
-          type,
-          date: {
-            $gte: new Date(year, month - 1, 1),
-            $lte: new Date(year, month, 1),
-          },
-        },
-      },
-      { $sort: { date: -1 } },
-      { $skip: (page - 1) * PAGINATION_LIMIT },
-      { $limit: PAGINATION_LIMIT },
-    ]);
-    res.status(200).send(transactions);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-};
+const getDate = (query: string) => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
 
-export const getWeekTransactions = async (req: Request, res: Response) => {
-  try {
-    const week = parseInt(req.params.week);
-    const month = parseInt(req.params.month);
-    const year = parseInt(req.params.year);
-    const page = parseInt(req.params.page);
-    const { type } = req.params;
-    const { user }: IGetTransaction = req.body;
-    if (!week || !year || !page)
-      return res.status(400).send("Bad Request, missing fields");
-    const transactions = await Transaction.aggregate([
-      {
-        $match: {
-          user: new ObjectId(user),
-          type,
-          date: {
-            $gte: new Date(year, month - 1, week * 7 - 6),
-            $lte: new Date(year, month - 1, week * 7),
-          },
-        },
-      },
-      { $sort: { date: -1 } },
-      { $skip: (page - 1) * PAGINATION_LIMIT },
-      { $limit: PAGINATION_LIMIT },
-    ]);
-    res.status(200).send(transactions);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-};
-
-export const getDayTransactions = async (req: Request, res: Response) => {
-  try {
-    const day = parseInt(req.params.day);
-    const month = parseInt(req.params.month);
-    const year = parseInt(req.params.year);
-    const page = parseInt(req.params.page);
-    const { type } = req.params;
-    const { user }: IGetTransaction = req.body;
-    if (!day || !month || !year || !page)
-      return res.status(400).send("Bad Request, missing fields");
-    const transactions = await Transaction.aggregate([
-      {
-        $match: {
-          user: new ObjectId(user),
-          type,
-          date: {
-            $gte: new Date(year, month - 1, day),
-            $lte: new Date(year, month - 1, day + 1),
-          },
-        },
-      },
-      { $sort: { date: -1 } },
-      { $skip: (page - 1) * PAGINATION_LIMIT },
-      { $limit: PAGINATION_LIMIT },
-    ]);
-    res.status(200).send(transactions);
-  } catch (error) {
-    res.status(500).send(error);
+  switch (query) {
+    case "year":
+      return {
+        $gte: new Date(year, 0, 1),
+        $lte: new Date(year, 11, 31),
+      };
+    case "half":
+      return {
+        $gte: new Date(year, month - 6, 1),
+        $lte: new Date(year, month, day),
+      };
+    case "month":
+      return {
+        $gte: new Date(year, month, 1),
+        $lte: new Date(year, month, 31),
+      };
+    case "week":
+      return {
+        $gte: new Date(year, month, day - 6),
+        $lte: new Date(year, month, day),
+      };
+    case "yesterday":
+      return {
+        $gte: new Date(year, month, day - 1),
+        $lte: new Date(year, month, day),
+      };
+    case "today":
+      return {
+        $gte: new Date(year, month, day),
+        $lte: new Date(year, month, day + 1),
+      };
+    default:
+      return {
+        $gte: new Date(0, 0, 0),
+        $lte: new Date(year + 1, 0, 0),
+      };
   }
 };
