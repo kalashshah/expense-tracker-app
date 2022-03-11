@@ -11,14 +11,19 @@ import {
 import { DrawerRoutes } from "./DrawerRoutes";
 import { CategoryRoutes } from "./CategoryTopRoutes";
 import DrawerContent from "../components/DrawerContent";
-import { Home, Category, Transaction, TransactionItem } from "../screens";
+import {
+  Home,
+  Category,
+  Transaction,
+  TransactionItem,
+  Dashboard,
+  Settings,
+} from "../screens";
 
 const Drawer = createDrawerNavigator<DrawerRoutes>();
 const TopTab = createMaterialTopTabNavigator<CategoryRoutes>();
 
-const Dashboard = () => <Text>Dashboard</Text>;
 const Ethereum = () => <Text>Ethereum</Text>;
-const Settings = () => <Text>Settings</Text>;
 
 const CategoryTabNavigator = () => {
   return (

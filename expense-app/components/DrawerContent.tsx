@@ -8,6 +8,7 @@ import {
 } from "@react-navigation/drawer";
 import { Entypo } from "@expo/vector-icons";
 
+import Share from "./Share";
 import Animation from "./Animation";
 import useAuth from "../hooks/useAuth";
 
@@ -40,10 +41,7 @@ const DrawerContent = (props: DrawerContentComponentProps) => {
         </View>
       </DrawerContentScrollView>
       <View style={styles.bottom}>
-        <TouchableOpacity style={styles.button}>
-          <Entypo name="share" size={22} />
-          <Text style={styles.buttonText}>Share</Text>
-        </TouchableOpacity>
+        <Share />
         <TouchableOpacity style={styles.button} onPress={logoutHandler}>
           <Entypo name="log-out" size={22} />
           <Text style={styles.buttonText}>Logout</Text>
