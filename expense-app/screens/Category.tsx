@@ -17,8 +17,9 @@ import CategoryItem from "../components/CategoryItem";
 import axiosInstance from "../services/axiosInstance";
 import { ICategory } from "../types/Category";
 import Loading from "../components/Loading";
+import { CommonActions } from "@react-navigation/native";
 
-const SIZE = 85;
+const SIZE = 75;
 
 const Category = ({
   route,
@@ -52,7 +53,7 @@ const Category = ({
             { useNativeDriver: true }
           )}
           data={categories}
-          keyExtractor={(_, index) => index.toString()}
+          keyExtractor={(item) => item._id}
           renderItem={({ item, index }) => {
             const scale = scrollY.interpolate({
               inputRange: [-1, 0, SIZE * index, SIZE * (index + 3)],
@@ -71,7 +72,15 @@ const Category = ({
           contentContainerStyle={styles.list}
         />
       </View>
-      <ActionButton type={type} modal={CategoryModal} />
+      <ActionButton
+        type={type}
+        modal={CategoryModal}
+        onComplete={() =>
+          navigation.dispatch(
+            CommonActions.reset({ index: 0, routes: [{ name: "Categories" }] })
+          )
+        }
+      />
     </KeyboardAvoidingView>
   );
 };

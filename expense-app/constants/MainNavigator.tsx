@@ -11,15 +11,12 @@ import {
 import { DrawerRoutes } from "./DrawerRoutes";
 import { CategoryRoutes } from "./CategoryTopRoutes";
 import DrawerContent from "../components/DrawerContent";
-import { Home, Category } from "../screens";
-import Transaction from "../screens/Transaction";
+import { Home, Category, Transaction, TransactionItem } from "../screens";
 
 const Drawer = createDrawerNavigator<DrawerRoutes>();
 const TopTab = createMaterialTopTabNavigator<CategoryRoutes>();
 
 const Dashboard = () => <Text>Dashboard</Text>;
-const Wallet = () => <Text>Wallet</Text>;
-const Budget = () => <Text>Budget</Text>;
 const Ethereum = () => <Text>Ethereum</Text>;
 const Settings = () => <Text>Settings</Text>;
 
@@ -86,7 +83,7 @@ const MainNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name="Budgets"
+        name="Transaction"
         component={Transaction}
         options={{
           drawerIcon: () => <FontAwesome5 name="money-check" size={20} />,
@@ -106,6 +103,14 @@ const MainNavigator = () => {
         component={Settings}
         options={{
           drawerIcon: () => <Icon name="settings" size={24} />,
+        }}
+      />
+      <Drawer.Screen
+        name="TransactionItem"
+        component={TransactionItem}
+        options={{
+          drawerItemStyle: { display: "none" },
+          headerShown: false,
         }}
       />
     </Drawer.Navigator>

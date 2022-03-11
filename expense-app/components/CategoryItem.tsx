@@ -15,14 +15,12 @@ const CategoryItem = ({ category, scale, opacity }: Props) => {
     <Animated.View
       style={[styles.container, { transform: [{ scale }], opacity }]}
     >
-      <View style={[styles.icon, { backgroundColor: category.color }]}>
-        <RoundedIcon
-          name={category.icon}
-          backgroundColor={category.color}
-          size={30}
-          color="white"
-        />
-      </View>
+      <RoundedIcon
+        name={category.icon}
+        backgroundColor={category.color}
+        size={30}
+        color="white"
+      />
       <View style={styles.right}>
         <Text style={styles.text}>{category.name}</Text>
       </View>
@@ -44,16 +42,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 10,
   },
-  icon: {
-    height: 40,
-    width: 40,
-    borderRadius: 40 / 2,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 20,
-  },
   right: {
     flex: 0.8,
+    marginLeft: 20,
     justifyContent: "center",
   },
   text: {

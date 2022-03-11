@@ -4,7 +4,11 @@ import { Request, Response } from "express";
 import Transaction from "../models/transaction";
 import Category from "../models/category";
 import { PAGINATION_LIMIT } from "../util/constants";
-import { ITransaction, IGetTransaction } from "../types/Transaction";
+import {
+  ITransaction,
+  IGetTransaction,
+  IUpdateTransaction,
+} from "../types/Transaction";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -65,9 +69,15 @@ export const updateTransaction = async (req: Request, res: Response) => {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(400).send("Invalid ID");
+    const { date, amount, description, name }: IUpdateTransaction = req.body;
     const transaction = await Transaction.findByIdAndUpdate(
       id,
-      { ...req.body },
+      {
+        date,
+        amount,
+        description,
+        name,
+      },
       { new: true }
     );
     res.status(200).send(transaction);
@@ -183,6 +193,7 @@ export const getTransactions = async (req: Request, res: Response) => {
             as: "category",
           },
         },
+        { $unwind: "$category" },
       ]);
       return res.status(200).send(transactions);
     }
@@ -206,6 +217,7 @@ export const getTransactions = async (req: Request, res: Response) => {
           as: "category",
         },
       },
+      { $unwind: "$category" },
     ]);
     res.status(200).send(transactions);
   } catch (error) {
@@ -222,18 +234,18 @@ const getDate = (query: string) => {
   switch (query) {
     case "year":
       return {
-        $gte: new Date(year, 0, 1),
-        $lte: new Date(year, 11, 31),
+        $gte: new Date(year - 1, month, day),
+        $lte: new Date(year, month, day + 1),
       };
     case "half":
       return {
         $gte: new Date(year, month - 6, 1),
-        $lte: new Date(year, month, day),
+        $lte: new Date(year, month, day + 1),
       };
     case "month":
       return {
-        $gte: new Date(year, month, 1),
-        $lte: new Date(year, month, 31),
+        $gte: new Date(year, month - 1, day),
+        $lte: new Date(year, month, day + 1),
       };
     case "week":
       return {

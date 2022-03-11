@@ -63,7 +63,7 @@ export default AuthForm;
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FFFFFF",
   },
   animationContainer: {
     height: Dimensions.get("window").height / 2.3,

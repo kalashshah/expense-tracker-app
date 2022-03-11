@@ -12,15 +12,15 @@ import { ModalProps } from "./CategoryModal";
 interface Props {
   modal: ({ visible, type }: ModalProps) => JSX.Element;
   type: "income" | "expense";
+  onComplete: () => void;
 }
 
-const ActionButton = ({ modal: Modal, type }: Props) => {
+const ActionButton = ({ modal: Modal, type, onComplete }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const animation: Animated.Value = useRef(new Animated.Value(0)).current;
 
   const toggle = () => {
     const toValue = isOpen ? 0 : 1;
-    console.log("Pressed");
 
     Animated.spring(animation, {
       toValue,
@@ -44,11 +44,11 @@ const ActionButton = ({ modal: Modal, type }: Props) => {
 
   return (
     <>
-      <Modal visible={isOpen} type={type} />
+      <Modal visible={isOpen} type={type} onComplete={onComplete}/>
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={toggle}>
           <Animated.View style={[styles.button, rotate]}>
-            <AntDesign name="plus" size={20} />
+            <AntDesign name="plus" size={20} color="white"/>
           </Animated.View>
         </TouchableWithoutFeedback>
       </View>

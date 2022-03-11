@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import axios, { CancelTokenSource } from "axios";
 
+import { DrawerNavigationProps, DrawerRoutes } from "../constants/DrawerRoutes";
 import Picker from "../components/Picker";
 import Loading from "../components/Loading";
 import SearchBar from "../components/SearchBar";
@@ -11,7 +12,9 @@ import { getDate } from "../constants/TransactionData";
 import axiosInstance from "../services/axiosInstance";
 import { ITransaction } from "../types/Transaction";
 
-const Transaction = () => {
+const Transaction = ({
+  navigation,
+}: DrawerNavigationProps<DrawerRoutes, "Transaction">) => {
   const [searchPhrase, setSearchPhrase] = useState<string>("");
   const [clicked, setClicked] = useState<boolean>(false);
   const [transactions, setTransactions] = useState<null | ITransaction[]>(null);
@@ -50,7 +53,7 @@ const Transaction = () => {
       />
       <Picker {...{ selected, setSelected }} />
       <ToggleButton left="Income" right="Expense" setIsOn={setIsIncome} />
-      <TransactionList data={transactions} />
+      <TransactionList data={transactions} nav={navigation} />
     </SafeAreaView>
   );
 };

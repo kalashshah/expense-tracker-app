@@ -21,9 +21,10 @@ import { IAddCategory } from "../types/Category";
 export interface ModalProps {
   visible: boolean;
   type: "income" | "expense";
+  onComplete: () => void;
 }
 
-const CategoryModal = ({ visible, type }: ModalProps) => {
+const CategoryModal = ({ visible, type, onComplete }: ModalProps) => {
   const [color, setColor] = useState<number>(0);
   const [icon, setIcon] = useState<number>(0);
 
@@ -74,7 +75,8 @@ const CategoryModal = ({ visible, type }: ModalProps) => {
           type,
         };
         try {
-          const res = await axiosInstance.post("/category/add", data);
+          await axiosInstance.post("/category/add", data);
+          onComplete();
           setSubmitting(false);
         } catch (error) {
           const err = (error as AxiosError).response?.data;

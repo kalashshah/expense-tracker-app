@@ -1,6 +1,8 @@
 import { ParamListBase, RouteProp } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 
+import { ITransaction } from "../types/Transaction";
+
 export interface DrawerNavigationProps<
   Paramlist extends ParamListBase,
   RouteName extends keyof Paramlist = string
@@ -14,6 +16,7 @@ export type DrawerRoutes = {
   Settings: undefined;
   Dashboard: undefined;
   Categories: undefined;
-  Budgets: undefined;
+  Transaction: undefined;
+  TransactionItem: { item: ITransaction };
   "Ethereum Wallet": undefined;
 };

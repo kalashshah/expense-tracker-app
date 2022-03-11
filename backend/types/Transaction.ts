@@ -14,3 +14,10 @@ export interface ITransaction extends Document {
 export interface IGetTransaction {
   user: string;
 }
+
+export interface IUpdateTransaction {
+  date: Date;
+  amount: number;
+  description: string;
+  name: string;
+}

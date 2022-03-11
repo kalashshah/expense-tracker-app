@@ -15,7 +15,7 @@ const RoundedIcon = ({
   color,
   backgroundColor,
 }: RoundedIconProps) => {
-  const iconSize = size * 0.8;
+  const iconSize = size * 0.7;
   return (
     <View
       style={{
