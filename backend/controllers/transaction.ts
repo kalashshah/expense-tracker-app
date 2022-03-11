@@ -254,13 +254,13 @@ const getDate = (query: string) => {
       };
     case "yesterday":
       return {
-        $gte: new Date(year, month, day - 1),
-        $lte: new Date(year, month, day),
+        $gte: new Date(year, month, day - 2),
+        $lte: new Date(year, month, day - 1),
       };
     case "today":
       return {
-        $gte: new Date(year, month, day),
-        $lte: new Date(year, month, day + 1),
+        $gte: new Date(year, month, day - 1),
+        $lte: new Date(year, month, day),
       };
     default:
       return {

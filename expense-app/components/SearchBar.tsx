@@ -31,7 +31,6 @@ const SearchBar = ({
           color="black"
           style={styles.searchIcon}
         />
-        {/* Input field */}
         <TextInput
           style={styles.input}
           placeholder="Search"
@@ -46,7 +45,7 @@ const SearchBar = ({
             name="cross"
             size={20}
             color="black"
-            style={{ padding: 1 }}
+            style={styles.crossIcon}
             onPress={() => {
               setSearchPhrase("");
             }}
@@ -62,7 +61,7 @@ const SearchBar = ({
               setClicked(false);
             }}
           >
-            <Text>Cancel</Text>
+            <Text style={styles.cancel}>Cancel</Text>
           </TouchableWithoutFeedback>
         </View>
       )}
@@ -99,9 +98,15 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   searchIcon: {
-    marginLeft: 1,
+    marginHorizontal: 10,
   },
   cancelButton: {
     margin: 5,
   },
+  cancel: {
+    color: "#24a0ed",
+  },
+  crossIcon: {
+    paddingRight: 5,
+  }
 });
