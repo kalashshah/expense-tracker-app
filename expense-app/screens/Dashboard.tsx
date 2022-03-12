@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import { LineChart, BarChart, ProgressChart } from "react-native-chart-kit";
+import * as Animatable from "react-native-animatable";
 
 import Loading from "../components/Loading";
 import axiosInstance from "../services/axiosInstance";
@@ -16,6 +17,7 @@ import { Data, Total } from "../types/Dashboard";
 
 const WIDTH = Dimensions.get("window").width - 25;
 const HEIGHT = 300;
+const DURATION = 400;
 
 const Dashboard = () => {
   const [monthlyExpenses, setMonthlyExpenses] = useState<number[]>([]);
@@ -42,7 +44,7 @@ const Dashboard = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
-      <View style={styles.top}>
+      <Animatable.View style={styles.top} animation="fadeInUp" delay={DURATION}>
         <View style={styles.topView}>
           <Text style={styles.title}>Total Income:</Text>
           <Text style={[styles.sub, styles.inc]}>₹{total.income}</Text>
@@ -51,8 +53,12 @@ const Dashboard = () => {
           <Text style={styles.title}>Total Expenses:</Text>
           <Text style={[styles.sub, styles.exp]}>₹{total.expense}</Text>
         </View>
-      </View>
-      <View style={styles.view}>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.view}
+        animation="fadeInUp"
+        delay={DURATION * 2}
+      >
         <Text style={styles.title}>Income throughout the year</Text>
         <LineChart
           data={{
@@ -67,8 +73,12 @@ const Dashboard = () => {
           bezier
           style={styles.chart}
         />
-      </View>
-      <View style={styles.view}>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.view}
+        animation="fadeInUp"
+        delay={DURATION * 3}
+      >
         <Text style={styles.title}>Expenses throughout the year</Text>
         <LineChart
           data={{
@@ -83,8 +93,12 @@ const Dashboard = () => {
           bezier
           style={styles.chart}
         />
-      </View>
-      <View style={styles.view}>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.view}
+        animation="fadeInUp"
+        delay={DURATION * 4}
+      >
         <Text style={styles.title}>Income vs Expenses</Text>
         <ProgressChart
           data={{
@@ -99,8 +113,12 @@ const Dashboard = () => {
           paddingLeft="15"
           style={styles.chart}
         />
-      </View>
-      <View style={styles.view}>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.view}
+        animation="fadeInUp"
+        delay={DURATION * 5}
+      >
         <Text style={styles.title}>Income BarChart</Text>
         <BarChart
           data={{
@@ -114,8 +132,12 @@ const Dashboard = () => {
           yAxisSuffix={""}
           style={styles.chart}
         />
-      </View>
-      <View style={styles.view}>
+      </Animatable.View>
+      <Animatable.View
+        style={styles.view}
+        animation="fadeInUp"
+        delay={DURATION * 6}
+      >
         <Text style={styles.title}>Expenses BarChart</Text>
         <BarChart
           data={{
@@ -129,7 +151,7 @@ const Dashboard = () => {
           yAxisSuffix={""}
           style={styles.chart}
         />
-      </View>
+      </Animatable.View>
     </ScrollView>
   );
 };
