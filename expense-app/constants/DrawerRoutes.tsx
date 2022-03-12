@@ -12,10 +12,10 @@ export interface DrawerNavigationProps<
 }
 
 export type DrawerRoutes = {
-  Home: undefined;
   Settings: undefined;
   Dashboard: undefined;
   Categories: undefined;
   Transaction: undefined;
+  AddTransaction: undefined;
   TransactionItem: { item: ITransaction };
 };

@@ -11,13 +11,13 @@ import { DrawerRoutes } from "./DrawerRoutes";
 import { CategoryRoutes } from "./CategoryTopRoutes";
 import DrawerContent from "../components/DrawerContent";
 import {
-  Home,
   Category,
   Transaction,
   TransactionItem,
   Dashboard,
   Settings,
 } from "../screens";
+import AddTransaction from "../screens/AddTransaction";
 
 const Drawer = createDrawerNavigator<DrawerRoutes>();
 const TopTab = createMaterialTopTabNavigator<CategoryRoutes>();
@@ -62,13 +62,6 @@ const MainNavigator = () => {
       useLegacyImplementation={true}
     >
       <Drawer.Screen
-        name="Home"
-        component={Home}
-        options={{
-          drawerIcon: () => <Icon name="home" size={24} />,
-        }}
-      />
-      <Drawer.Screen
         name="Dashboard"
         component={Dashboard}
         options={{
@@ -89,6 +82,16 @@ const MainNavigator = () => {
         component={Transaction}
         options={{
           drawerIcon: () => <FontAwesome5 name="money-check" size={20} />,
+          title: "My Transactions",
+        }}
+      />
+      <Drawer.Screen
+        name="AddTransaction"
+        component={AddTransaction}
+        options={{
+          drawerIcon: () => <Icon name="add" size={24} />,
+          title: "New Transaction",
+          headerShown: false,
         }}
       />
       <Drawer.Screen

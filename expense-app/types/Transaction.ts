@@ -18,3 +18,13 @@ export interface IEditTransaction {
   description: string;
   check?: string;
 }
+
+export interface IAddTransaction {
+  type?: string;
+  name: string;
+  date?: Date;
+  amount: number;
+  description: string;
+  category: string;
+  check?: string;
+}

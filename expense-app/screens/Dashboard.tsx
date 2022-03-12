@@ -37,7 +37,7 @@ const Dashboard = () => {
 
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch(() => {});
   }, []);
 
   if (isLoading) return <Loading />;

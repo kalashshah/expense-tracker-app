@@ -8,7 +8,7 @@ interface Props {
   right: string;
 }
 
-const RadioButton = ({ setIsOn, left, right }: Props) => {
+const ToggleButton = ({ setIsOn, left, right }: Props) => {
   const animation = useRef<AnimatedLottieView>(null);
 
   const toggle = () => {
@@ -35,12 +35,11 @@ const RadioButton = ({ setIsOn, left, right }: Props) => {
   );
 };
 
-export default RadioButton;
+export default ToggleButton;
 
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    marginTop: 100,
     flexDirection: "row",
     alignItems: "center",
   },

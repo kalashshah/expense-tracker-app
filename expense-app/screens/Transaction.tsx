@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import axios, { CancelTokenSource } from "axios";
 
 import { DrawerNavigationProps, DrawerRoutes } from "../constants/DrawerRoutes";
@@ -52,7 +52,9 @@ const Transaction = ({
         setClicked={setClicked}
       />
       <Picker {...{ selected, setSelected }} />
-      <ToggleButton left="Income" right="Expense" setIsOn={setIsIncome} />
+      <View style={styles.button}>
+        <ToggleButton left="Income" right="Expense" setIsOn={setIsIncome} />
+      </View>
       <TransactionList data={transactions} nav={navigation} />
     </SafeAreaView>
   );
@@ -62,8 +64,12 @@ export default Transaction;
 
 const styles = StyleSheet.create({
   root: {
-    // justifyContent: "center",
     flex: 1,
+    alignItems: "center",
+  },
+  button: {
+    marginTop: 100,
+    position: "absolute",
     alignItems: "center",
   },
 });
