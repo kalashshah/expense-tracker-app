@@ -1,4 +1,3 @@
-import { resolveSrv } from "dns/promises";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Transaction from "../models/transaction";
@@ -10,7 +9,7 @@ export const getDashboard = async (req: Request, res: Response) => {
     const { user } = req.body;
     const year = new Date().getFullYear();
 
-    const monthly = await Transaction.aggregate([
+    const exisitingMonths = await Transaction.aggregate([
       {
         $match: {
           user: new ObjectId(user),
@@ -49,6 +48,19 @@ export const getDashboard = async (req: Request, res: Response) => {
         },
       },
     ]);
+
+    const monthlyExpTotal: number[] = new Array(12).fill(null);
+    const monthlyIncTotal: number[] = new Array(12).fill(null);
+
+    for (let i = 0; i < exisitingMonths.length; i++) {
+      monthlyExpTotal[exisitingMonths[i].month - 1] =
+        exisitingMonths[i].expense;
+      monthlyIncTotal[exisitingMonths[i].month - 1] = exisitingMonths[i].income;
+    }
+    for (let i = 0; i < 12; i++) {
+      if (monthlyExpTotal[i] === null) monthlyExpTotal[i] = 0;
+      if (monthlyIncTotal[i] === null) monthlyIncTotal[i] = 0;
+    }
 
     const total = await Transaction.aggregate([
       {
@@ -118,7 +130,8 @@ export const getDashboard = async (req: Request, res: Response) => {
         {
           $project: {
             _id: 0,
-            category: 1,
+            name: "$category.name",
+            color: "$category.color",
             total: 1,
           },
         },
@@ -133,9 +146,13 @@ export const getDashboard = async (req: Request, res: Response) => {
     const expenseCategories = await categoriesOfType("expense");
     const incomeCategories = await categoriesOfType("income");
 
-    return res
-      .status(200)
-      .send({ monthly, total: total[0], expenseCategories, incomeCategories });
+    return res.status(200).send({
+      monthlyExpTotal,
+      monthlyIncTotal,
+      total: total[0],
+      expenseCategories,
+      incomeCategories,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
