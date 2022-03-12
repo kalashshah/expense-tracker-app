@@ -3,7 +3,12 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoose, { ConnectOptions } from "mongoose";
 import { PORT, MONGO_URI } from "../util/secret";
-import { userRoutes, transactionRoutes, categoryRoutes } from "../routes";
+import {
+  userRoutes,
+  transactionRoutes,
+  categoryRoutes,
+  dashboardRoutes,
+} from "../routes";
 
 const app = express();
 
@@ -18,6 +23,7 @@ app.get("/", (req, res) => {
 app.use("/account", userRoutes);
 app.use("/transaction", transactionRoutes);
 app.use("/category", categoryRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 interface Options extends ConnectOptions {
   useNewUrlParser: boolean;
