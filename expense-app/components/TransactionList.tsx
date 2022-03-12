@@ -60,8 +60,10 @@ const TransactionList = ({ data, nav }: ListProps) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data}
+        bounces={false}
         renderItem={({ item }) => <Item {...{ item, nav }} />}
         keyExtractor={(item) => item._id}
+        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   );

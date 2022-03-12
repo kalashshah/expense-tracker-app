@@ -66,7 +66,7 @@ const Login = ({
 
   return (
     <AuthForm
-      source={require("../assets/animations/loading.json")}
+      source={require("../assets/animations/welcome.json")}
       title="Login"
       link="Sign Up"
       linkDescription="Don't have an account?"
