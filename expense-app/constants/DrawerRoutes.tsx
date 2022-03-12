@@ -18,5 +18,4 @@ export type DrawerRoutes = {
   Categories: undefined;
   Transaction: undefined;
   TransactionItem: { item: ITransaction };
-  "Ethereum Wallet": undefined;
 };

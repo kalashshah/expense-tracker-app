@@ -1,5 +1,4 @@
 import React from "react";
-import { Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import {
@@ -22,8 +21,6 @@ import {
 
 const Drawer = createDrawerNavigator<DrawerRoutes>();
 const TopTab = createMaterialTopTabNavigator<CategoryRoutes>();
-
-const Ethereum = () => <Text>Ethereum</Text>;
 
 const CategoryTabNavigator = () => {
   return (
@@ -92,15 +89,6 @@ const MainNavigator = () => {
         component={Transaction}
         options={{
           drawerIcon: () => <FontAwesome5 name="money-check" size={20} />,
-        }}
-      />
-      <Drawer.Screen
-        name="Ethereum Wallet"
-        component={Ethereum}
-        options={{
-          drawerIcon: () => (
-            <MaterialCommunityIcons name="ethereum" size={24} />
-          ),
         }}
       />
       <Drawer.Screen
