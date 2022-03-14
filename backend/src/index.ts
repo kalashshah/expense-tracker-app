@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import mongoose, { ConnectOptions } from "mongoose";
@@ -16,8 +16,10 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
+app.get("/", (_: Request, res: Response) => {
+  res.send(
+    "Welcome to expense tracker backend, please  have a look at the github repo for the link to the app"
+  );
 });
 
 app.use("/account", userRoutes);
