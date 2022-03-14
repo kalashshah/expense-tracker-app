@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -53,9 +53,12 @@ const Item = ({ item, nav }: ItemProps) => (
 interface ListProps {
   data: ITransaction[];
   nav: DrawerNavigationProp<DrawerRoutes, "Transaction">;
+  endReached: () => void;
 }
 
-const TransactionList = ({ data, nav }: ListProps) => {
+const TransactionList = ({ data, nav, endReached }: ListProps) => {
+  const [callOnScrollEnd, setCallOnScrollEnd] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       {data.length > 0 ? (
@@ -65,6 +68,11 @@ const TransactionList = ({ data, nav }: ListProps) => {
           renderItem={({ item }) => <Item {...{ item, nav }} />}
           keyExtractor={(item) => item._id}
           showsVerticalScrollIndicator={false}
+          onEndReached={() => setCallOnScrollEnd(true)}
+          onMomentumScrollEnd={() => {
+            if (callOnScrollEnd) endReached();
+            setCallOnScrollEnd(false);
+          }}
         />
       ) : (
         <View style={styles.empty}>
