@@ -58,13 +58,19 @@ interface ListProps {
 const TransactionList = ({ data, nav }: ListProps) => {
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        bounces={false}
-        renderItem={({ item }) => <Item {...{ item, nav }} />}
-        keyExtractor={(item) => item._id}
-        showsVerticalScrollIndicator={false}
-      />
+      {data.length > 0 ? (
+        <FlatList
+          data={data}
+          bounces={false}
+          renderItem={({ item }) => <Item {...{ item, nav }} />}
+          keyExtractor={(item) => item._id}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <View style={styles.empty}>
+          <Text style={styles.message}>No Transactions yet</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -105,5 +111,14 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  empty: {
+    flex: 1,
+    marginTop: 10,
+  },
+  message: {
+    textAlign: "center",
+    fontSize: 22,
+    opacity: 0.5,
   },
 });

@@ -24,7 +24,6 @@ const Dashboard = () => {
   const [monthlyIncome, setMonthlyIncome] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [total, setTotal] = useState<Total>({ income: 0, expense: 0 });
-  const sum = total.expense + total.income;
 
   useEffect(() => {
     axiosInstance
@@ -45,14 +44,25 @@ const Dashboard = () => {
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
       <Animatable.View style={styles.top} animation="fadeInUp" delay={DURATION}>
-        <View style={styles.topView}>
-          <Text style={styles.title}>Total Income:</Text>
-          <Text style={[styles.sub, styles.inc]}>₹{total.income}</Text>
-        </View>
-        <View style={styles.topView}>
-          <Text style={styles.title}>Total Expenses:</Text>
-          <Text style={[styles.sub, styles.exp]}>₹{total.expense}</Text>
-        </View>
+        {total ? (
+          <>
+            <View style={styles.topView}>
+              <Text style={styles.title}>Total Income:</Text>
+              <Text style={[styles.sub, styles.inc]}>₹{total.income}</Text>
+            </View>
+            <View style={styles.topView}>
+              <Text style={styles.title}>Total Expenses:</Text>
+              <Text style={[styles.sub, styles.exp]}>₹{total.expense}</Text>
+            </View>
+          </>
+        ) : (
+          <View style={styles.topView}>
+            <Text style={styles.title}>
+              Please add transactions to get detailed analytics here on your
+              dashboard
+            </Text>
+          </View>
+        )}
       </Animatable.View>
       <Animatable.View
         style={styles.view}
@@ -94,26 +104,28 @@ const Dashboard = () => {
           style={styles.chart}
         />
       </Animatable.View>
-      <Animatable.View
-        style={styles.view}
-        animation="fadeInUp"
-        delay={DURATION * 4}
-      >
-        <Text style={styles.title}>Income vs Expenses</Text>
-        <ProgressChart
-          data={{
-            labels: ["Income", "Expense"],
-            data: [total.income / sum, total.expense / sum],
-          }}
-          width={WIDTH}
-          height={HEIGHT}
-          chartConfig={progressConfig}
-          backgroundColor="transparent"
-          accessor="data"
-          paddingLeft="15"
-          style={styles.chart}
-        />
-      </Animatable.View>
+      {total && (
+        <Animatable.View
+          style={styles.view}
+          animation="fadeInUp"
+          delay={DURATION * 4}
+        >
+          <Text style={styles.title}>Income vs Expenses</Text>
+          <ProgressChart
+            data={{
+              labels: ["Income", "Expense"],
+              data: [
+                total.income / (total.income + total.expense),
+                total.expense / (total.income + total.expense),
+              ],
+            }}
+            width={WIDTH}
+            height={HEIGHT}
+            chartConfig={progressConfig}
+            style={styles.chart}
+          />
+        </Animatable.View>
+      )}
       <Animatable.View
         style={styles.view}
         animation="fadeInUp"
