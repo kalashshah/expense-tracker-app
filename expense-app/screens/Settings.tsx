@@ -21,9 +21,6 @@ const Settings = () => {
       <View style={styles.container}>
         <Text style={styles.title}>Currency:</Text>
         <Text style={styles.sub}>Rupees ₹</Text>
-        <TouchableOpacity>
-          <Text style={styles.button}>Change currency</Text>
-        </TouchableOpacity>
       </View>
       <View style={styles.container}>
         <Share />

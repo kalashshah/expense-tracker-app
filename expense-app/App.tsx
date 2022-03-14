@@ -7,7 +7,7 @@ import { AppRoutes } from "./constants/AppRoutes";
 import { AuthenticationRoutes } from "./constants/AuthenticationRoutes";
 import MainNavigator from "./constants/MainNavigator";
 
-import { Onboard, Login, Signup, Home } from "./screens";
+import { Onboard, Login, Signup } from "./screens";
 import useFirstLaunch from "./hooks/useFirstLaunch";
 import Loading from "./components/Loading";
 import AuthContextProvider from "./store/AuthContext";
